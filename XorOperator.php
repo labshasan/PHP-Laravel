@@ -10,7 +10,7 @@ $num2=true;
 $result = $num1 ^ $num2;
 
 echo $result;
-echo "Hello";
+
 ?>
 
 </body>
