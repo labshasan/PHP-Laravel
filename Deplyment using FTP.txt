@@ -1,0 +1,18 @@
+1. Download Putty and Open it.
+2. Goto VMWare CentOS and get IP address.
+3. Then fill Host Name in Putty - enter IP address.
+4. Port number is 22.
+5. Load, Save and Open.
+6. in command prompt enter user name - root
+7. then enter password of CentOS - i.e. - bitm
+8. check connectivity using command - ls
+9. Come back to PHP storm - Tools>Deployment>Configuration
+10. Enter CentOS IP address in SFTP host box - Type is SFTP
+11. Port is 22
+12. Select or create root path
+13. Enter user name as 'root'
+14. Enter your own CentOS password - i.e. - bitm
+15. In mapping - ensure / exists in both path boxes.
+16. Click OK
+17. Tools>Deployment>BrowseRemoteHost
+18. Right click on project and select 'Upload to project ftp deployment path name'
