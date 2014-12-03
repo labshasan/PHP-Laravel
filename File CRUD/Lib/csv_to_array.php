@@ -37,15 +37,40 @@ function csv_to_array($filename='', $delimiter=',')
     {
         while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE)
         {
-            if(!$header)
+            $num = count($row);
+            echo "<p> $num fields in line $row: <br /></p>\n";
+            $row++;
+            for ($c=0; $c < $num; $c++) {
+                echo $data[$c] . "<br />\n";
+            }
+
+            /*if(!$header)
                 $header = $row;
             else
-                $data= array_combine2($header, $row);
+                $data= array_combine2($header, $row);*/
         }
         fclose($handle);
     }
     return $data;
 }
+
+
+//Just use the function for parsing a CSV file
+//http://php.net/manual/en/function.fgetcsv.php
+/*$row = 1;
+if (($handle = fopen("test.csv", "r")) !== FALSE) {
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+        $num = count($data);
+        echo "<p> $num fields in line $row: <br /></p>\n";
+        $row++;
+        for ($c=0; $c < $num; $c++) {
+            echo $data[$c] . "<br />\n";
+        }
+    }
+    fclose($handle);
+}*/
+
+
 /**
  * Example
  */
