@@ -1,18 +1,18 @@
 <?php
-include_once "/Const/Configuration.php";
+include_once "Configuration.php";
 session_start();
 
-$keyname = $ProductSessionKeyName;
 
 function add($product_name, $quantity)
 {
-    if(!array_key_exists($keyname, $_SESSION )){
-        $_SESSION[$keyname] = array();
+    global $ProductSessionKeyName;
+    if(!array_key_exists($ProductSessionKeyName, $_SESSION )){
+        $_SESSION[$ProductSessionKeyName] = array();
     }
 
-    $order_no = (count($_SESSION[$keyname])+1);
+    $order_no = (count($_SESSION[$ProductSessionKeyName])+1);
 
-    $_SESSION[$keyname][$order_no] = array('product_name' => $product_name,
+    $_SESSION[$ProductSessionKeyName][$order_no] = array('product_name' => $product_name,
         'quantity' => $quantity
     );
 }
