@@ -1,9 +1,3 @@
-//Articles to be read -
-//http://www.w3schools.com/dom/met_document_getelementsbytagname.asp
-//http://php.net/manual/en/domdocument.getelementsbytagname.php
-//http://www.dynamicdrive.com/forums/showthread.php?14165-Read-and-write-XML-with-PHP
-//http://stackoverflow.com/questions/2038535/create-new-xml-file-and-write-data-to-it
-
 <?php
 include_once('lib/library.php');
 
