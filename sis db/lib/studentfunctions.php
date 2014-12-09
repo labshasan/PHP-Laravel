@@ -1,11 +1,7 @@
-//To Read-
-//http://www.startutorial.com/articles/view/php-crud-tutorial-part-1
-//(part 1 to part3)
-//https://www.codeofaninja.com/2011/12/php-and-mysql-crud-tutorial.html
-//
 
 
 <?php
+
 include_once('lib/library.php');
 
 function addItemToSession($data)
@@ -28,7 +24,10 @@ function addItemToSession($data)
             }
             foreach ($student_keys as $k1 => $v1) {
                 if ($pk == $k1) {
-                    $_SESSION[$student_store][$length][$pk] = $_POST[$pk];
+                    if(isset($_POST[$pk]))
+                        $_SESSION[$student_store][$length][$pk] = $_POST[$pk];
+                    else
+                        $_SESSION[$student_store][$length][$pk] = '';
                 }
             }
     }
@@ -114,12 +113,14 @@ function editItemToSession($data)
         }
         foreach ($student_keys as $k1 => $v1) {
             if ($pk == $k1) {
-                $_SESSION[$student_store][$modify_index][$pk] = $_POST[$pk];
+                if(isset($_POST[$pk]))
+                    $_SESSION[$student_store][$modify_index][$pk] = $_POST[$pk];
+                else
+                    $_SESSION[$student_store][$modify_index][$pk] = '';
             }
         }
     }
 
-    print_r($_SESSION);
 }
 
 function getModifyDetail($index){

@@ -1,5 +1,7 @@
 <?php
 include_once('lib/library.php');
+
+print_r($_SESSION);
 ?>
 
 <html>
@@ -30,6 +32,7 @@ include_once('lib/library.php');
             <?php
             foreach ($student_keys as $k1 => $v1) {
                 echo '<td>';
+                if(isset($_SESSION[$student_store][$i][$k1]))
                 echo $_SESSION[$student_store][$i][$k1];
                 echo '</td>';
             }
