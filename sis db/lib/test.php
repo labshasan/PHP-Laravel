@@ -48,7 +48,9 @@ if($result){
     echo("<br>Input data is succeed");
 
     // 4. Select result
-    while($data = mysql_fetch_array($result))
+    //mysql_fetch_array
+    //mysql_fetch_assoc
+    while($data = mysql_fetch_assoc($result))
     {
         echo '<br/>';
         echo ' '. $data['student_id'] . ' ';
