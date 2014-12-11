@@ -27,5 +27,6 @@ define('SORT_COLUMN_STUDENT','student_fname');
 define('ID_COLUMN_STUDENT','student_id');
 
 define('XMLFilePath', getcwd()."/sis.xml");
+define('TXTFilePath', getcwd()."/lib/sis.txt");
 
 

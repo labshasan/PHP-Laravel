@@ -1,6 +1,6 @@
 <?php
 include_once('lib/library.php');
-
+GetAllStudents();
 print_r($_SESSION);
 ?>
 

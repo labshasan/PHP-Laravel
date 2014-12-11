@@ -1,6 +1,12 @@
 <?php
 include_once('lib/library.php');
 
+function GetAllStudents()
+{
+    file_put_contents(TXTFilePath, json_encode($_SESSION));
+    $_SESSION = json_decode(file_get_contents(TXTFilePath), true);
+}
+
 function addItemToSession($data)
 {
     if(empty($data))
@@ -29,6 +35,10 @@ function addItemToSession($data)
             }
     }
 
+    //text file
+    file_put_contents(TXTFilePath, json_encode($_SESSION));
+    $_SESSION = json_decode(file_get_contents(TXTFilePath), true);
+
     print_r($_SESSION);
 
     //$_SESSION['names'][$length] = array('product_name'=>$product_name,
@@ -51,8 +61,13 @@ function addItemToSession($data)
 function getStudentCount()
 {
     global $student_store;
-    $length = count($_SESSION[$student_store]);
-    return $length;
+    $_SESSION = json_decode(file_get_contents(TXTFilePath), true);
+    if(isset($_SESSION[$student_store])) {
+        $length = count($_SESSION[$student_store]);
+        return $length;
+    }
+    else
+        return 0;
 }
 
 function getIndex()
@@ -64,6 +79,8 @@ function getIndex()
 function deleteByGettingIndex()
 {
     global $student_store;
+    $_SESSION = json_decode(file_get_contents(TXTFilePath), true);
+
     if(!array_key_exists($student_store,$_SESSION)){
         $_SESSION[$student_store]= array();
     }
@@ -73,6 +90,9 @@ function deleteByGettingIndex()
 
     $_SESSION[$student_store] = array_values($_SESSION[$student_store]);
     sortNSaveStudentInfo();
+
+    file_put_contents(TXTFilePath, json_encode($_SESSION));
+    $_SESSION = json_decode(file_get_contents(TXTFilePath), true);
 }
 
 function sortNSaveStudentInfo()
@@ -118,10 +138,14 @@ function editItemToSession($data)
         }
     }
 
+    file_put_contents(TXTFilePath, json_encode($_SESSION));
+    $_SESSION = json_decode(file_get_contents(TXTFilePath), true);
+
 }
 
 function getModifyDetail($index){
 
+    $_SESSION = json_decode(file_get_contents(TXTFilePath), true);
     global $student_store;
     $itemToUpdate = array();
     if(!array_key_exists($student_store,$_SESSION)){
