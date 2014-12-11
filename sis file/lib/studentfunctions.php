@@ -21,7 +21,10 @@ function addItemToSession($data)
             }
             foreach ($student_keys as $k1 => $v1) {
                 if ($pk == $k1) {
-                    $_SESSION[$student_store][$length][$pk] = $_POST[$pk];
+                    if(isset($_POST[$pk]))
+                        $_SESSION[$student_store][$length][$pk] = $_POST[$pk];
+                    else
+                        $_SESSION[$student_store][$length][$pk] = '';
                 }
             }
     }
@@ -107,12 +110,14 @@ function editItemToSession($data)
         }
         foreach ($student_keys as $k1 => $v1) {
             if ($pk == $k1) {
-                $_SESSION[$student_store][$modify_index][$pk] = $_POST[$pk];
+                if(isset($_POST[$pk]))
+                    $_SESSION[$student_store][$modify_index][$pk] = $_POST[$pk];
+                else
+                    $_SESSION[$student_store][$modify_index][$pk] = '';
             }
         }
     }
 
-    print_r($_SESSION);
 }
 
 function getModifyDetail($index){
