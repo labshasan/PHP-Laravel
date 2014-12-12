@@ -1,14 +1,24 @@
 <?php
 include_once('lib/library.php');
-
-print_r($_SESSION);
+GetAllStudent();
+//print_r($_SESSION);
 ?>
 
 <html>
-<head>All Students</head>
+<head>
+    <title>All Students</title>
+    <meta charset="utf-8">
+    <!-- Include meta tag to ensure proper rendering and touch zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include bootstrap stylesheets -->
+    <link rel="stylesheet" href="lib/bootstrap.css">
+</head>
 <body>
-<div>
-    <table border="1">
+<div class="container">
+    <h2>Students</h2>
+    <p>All students:</p>
+    <div class="table-responsive">
+    <table class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>SL#</th>
@@ -25,6 +35,7 @@ print_r($_SESSION);
     <tbody>
     <?php
     global $student_store;
+    global $studentdbstore;
     $length = getStudentCount();
     for ($i=0;$i<$length;$i++):
         ?>
@@ -32,14 +43,21 @@ print_r($_SESSION);
             <?php
             foreach ($student_keys as $k1 => $v1) {
                 echo '<td>';
-                if(isset($_SESSION[$student_store][$i][$k1]))
-                echo $_SESSION[$student_store][$i][$k1];
+                if(isset($studentdbstore[$student_store][$i][$k1])) {
+                    if($studentdbstore[$student_store][$i][$k1] == $k1)
+                    {
+                        echo 'Yes';
+                    }
+                    else {
+                        echo $studentdbstore[$student_store][$i][$k1];
+                    }
+                }
                 echo '</td>';
             }
             ?>
-            <td><a href='update.php?index=<?php echo $i?>'>Edit</a> |
-                <a href='delete.php?index=<?php echo $i?>'>Delete</a> |
-                <a href='detail.php?index=<?php echo $i?>'>Show</a>
+            <td><a href='update.php?index=<?php echo $studentdbstore[$student_store][$i][ID_COLUMN_STUDENT]?>'>Edit</a> |
+                <a href='delete.php?index=<?php echo $studentdbstore[$student_store][$i][ID_COLUMN_STUDENT]?>'>Delete</a> |
+                <a href='detail.php?index=<?php echo $studentdbstore[$student_store][$i][ID_COLUMN_STUDENT]?>'>Show</a>
             </td>
         </tr>
     <?php
@@ -47,6 +65,7 @@ print_r($_SESSION);
     ?>
 </tbody>
 </table>
+    </div>
 <a href="create.php">Create New Student Record</a>
 </div>
 

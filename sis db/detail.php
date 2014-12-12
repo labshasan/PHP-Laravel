@@ -1,5 +1,6 @@
 <?php
 include_once('lib/library.php');
+
 ?>
 <html>
 <head></head>
@@ -9,11 +10,14 @@ include_once('lib/library.php');
     global $student_store;
     global $student_keys;
     $index = getIndex();
+
+    $detailstudent = GetStudentById($index);
+    //print_r($detailstudent);
     foreach ($student_keys as $k1 => $v1) {
     echo '<span><b>';
     echo $v1;
     echo '</b>: ';
-    echo $_SESSION[$student_store][$index][$k1];
+    echo $detailstudent[0][$k1];
     echo '</span><br/>';
     }
     ?>

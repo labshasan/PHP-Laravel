@@ -1,6 +1,6 @@
 <?php
 
-define('WWW_PATH','http://localhost:8080/sis/');
+define('WWW_PATH','http://localhost:8080/sisdb/');
 define('GET_ID','index');
 
 //Here I am preserving table name / storage name used for storing  data - student.
@@ -26,4 +26,5 @@ $student_keys = array(
 define('SORT_COLUMN_STUDENT','student_fname');
 define('ID_COLUMN_STUDENT','student_id');
 
+$studentdbstore = array();
 

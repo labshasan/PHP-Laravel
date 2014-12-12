@@ -10,51 +10,137 @@ function addItemToSession($data)
     {
         return;
     }
-    global $student_store;
     global $student_keys;
 
-    if(!array_key_exists($student_store,$_SESSION)){
-        $_SESSION[$student_store]= array();
-    }
-    $length = count($_SESSION[$student_store]);
-
+    $queryfilter = '';
+    $queryparam = '';
     foreach($_POST as $pk => $pv) {
-            if (empty($_SESSION[$student_store][$length])) {
-                $_SESSION[$student_store][$length] = array();
-            }
-            foreach ($student_keys as $k1 => $v1) {
-                if ($pk == $k1) {
-                    if(isset($_POST[$pk]))
-                        $_SESSION[$student_store][$length][$pk] = $_POST[$pk];
+        foreach ($student_keys as $k1 => $v1) {
+            if ($pk == $k1) {
+                if(isset($_POST[$pk])) {
+                    if(empty($queryfilter))
+                        $queryfilter = $k1;
                     else
-                        $_SESSION[$student_store][$length][$pk] = '';
+                        $queryfilter .= ','.$k1;
+
+                    if(empty($queryparam))
+                        $queryparam = '"'.$_POST[$pk].'"';
+                    else
+                        $queryparam .= ','.'"'.$_POST[$pk].'"';
                 }
             }
+        }
     }
 
-    print_r($_SESSION);
-
-    //$_SESSION['names'][$length] = array('product_name'=>$product_name,
-    //    'product_qty'=>$product_qty);
-
-
-    /*$product_name='';$product_qty=0;
-
-
-    if(!array_key_exists('names',$_SESSION)){
-        $_SESSION['names']= array();
+    $connection = mysql_connect("localhost","root","");
+    if ($connection) {
+        //echo ("Connection is succeed");
+    } else {
+        //echo ("Connection is fail");
     }
 
-    $length = count($_SESSION['names']);
-    $_SESSION['names'][$length] = array('product_name'=>$product_name,
-        'product_qty'=>$product_qty);*/
+    mysql_select_db("shop");
 
+    $querystring = '';
+    if(isset($queryfilter))
+    {
+        $querystring = 'INSERT INTO studentstore ('.$queryfilter.') VALUES ('.$queryparam.')';
+    }
+
+    $result = mysql_query($querystring);
+    if($result) {
+
+    }
+
+    mysql_close($connection);
+    //reload all
+    GetAllStudent();
+}
+
+function editItemToSession($data)
+{
+    if(empty($data))
+    {
+        return;
+    }
+    global $student_keys;
+
+
+    $queryparam = '';
+    foreach($_POST as $pk => $pv) {
+        foreach ($student_keys as $k1 => $v1) {
+            if ($pk == $k1) {
+                if(isset($_POST[$pk])) {
+
+                    if(empty($queryparam))
+                        $queryparam = $k1.' = '.'"'.$_POST[$pk].'"';
+                    else
+                        $queryparam .= ','.$k1.' = '.'"'.$_POST[$pk].'"';
+                }
+            }
+        }
+    }
+
+    $connection = mysql_connect("localhost","root","");
+    if ($connection) {
+        //echo ("Connection is succeed");
+    } else {
+        //echo ("Connection is fail");
+    }
+
+    mysql_select_db("shop");
+
+    $querystring = '';
+    if(isset($queryparam))
+    {
+        $querystring = 'UPDATE studentstore set '.$queryparam.' Where student_id='.$_POST[ID_COLUMN_STUDENT];
+    }
+    //echo $querystring;
+    $result = mysql_query($querystring);
+    if($result) {
+
+    }
+
+    mysql_close($connection);
+    //reload all
+    GetAllStudent();
+}
+
+function GetAllStudent()
+{
+    global $studentdbstore;
+    global $student_store;
+    $listall[$student_store] = array();
+    $connection = mysql_connect("localhost","root","");
+    if ($connection) {
+        //echo ("Connection is succeed");
+    } else {
+        //echo ("Connection is fail");
+    }
+
+    mysql_select_db("shop");
+
+    $querystring = "SELECT * from studentstore";
+
+    $result = mysql_query($querystring);
+    if($result) {
+        while($data = mysql_fetch_assoc($result))
+        {
+            $listall[$student_store][] = $data;
+        }
+    }
+
+    mysql_close($connection);
+
+    $studentdbstore[$student_store] = $listall[$student_store];
+    return $listall;
 }
 
 function getStudentCount()
 {
     global $student_store;
-    $length = count($_SESSION[$student_store]);
+    global $studentdbstore;
+    $length = count($studentdbstore[$student_store]);
     return $length;
 }
 
@@ -67,73 +153,66 @@ function getIndex()
 function deleteByGettingIndex()
 {
     global $student_store;
-    if(!array_key_exists($student_store,$_SESSION)){
-        $_SESSION[$student_store]= array();
+    global $studentdbstore;
+    if(!array_key_exists($student_store,$studentdbstore)){
+        $studentdbstore[$student_store]= array();
     }
 
     $delID = getIndex();
-    unset($_SESSION[$student_store][$delID]);
 
-    $_SESSION[$student_store] = array_values($_SESSION[$student_store]);
-    sortNSaveStudentInfo();
-}
-
-function sortNSaveStudentInfo()
-{
-    global $student_store;
-
-    if(!array_key_exists($student_store,$_SESSION)){
-        $_SESSION[$student_store]= array();
+    //delete sql
+    $connection = mysql_connect("localhost","root","");
+    if ($connection) {
+        //echo ("Connection is succeed");
+    } else {
+        //echo ("Connection is fail");
     }
-    $name = array();
-    foreach ($_SESSION[$student_store] as $key => $val)
-    {
-        $name[$key] = $val[SORT_COLUMN_STUDENT];
-    }
-    array_multisort($name, SORT_ASC, $_SESSION[$student_store]);
-}
+    mysql_select_db("shop");
 
-function editItemToSession($data)
-{
-    if(empty($data))
-    {
-        return;
-    }
-    global $student_store;
-    global $student_keys;
+    $querystring = 'DELETE from studentstore
+    Where
+    student_id='.$delID;
+    echo $querystring;
+    $result = mysql_query($querystring);
+    if($result) {
 
-    if(!array_key_exists($student_store,$_SESSION)){
-        $_SESSION[$student_store]= array();
     }
-
-    $modify_index = $_POST[ID_COLUMN_STUDENT];
-    foreach($_POST as $pk => $pv) {
-        if (empty($_SESSION[$student_store][$modify_index])) {
-            $_SESSION[$student_store][$modify_index] = array();
-        }
-        foreach ($student_keys as $k1 => $v1) {
-            if ($pk == $k1) {
-                if(isset($_POST[$pk]))
-                    $_SESSION[$student_store][$modify_index][$pk] = $_POST[$pk];
-                else
-                    $_SESSION[$student_store][$modify_index][$pk] = '';
-            }
-        }
-    }
-
+    mysql_close($connection);
+    //read all again
+    GetAllStudent();
 }
 
 function getModifyDetail($index){
-
-    global $student_store;
-    $itemToUpdate = array();
-    if(!array_key_exists($student_store,$_SESSION)){
-        $_SESSION[$student_store]= array();
-    }
-
-    $itemToUpdate = $_SESSION[$student_store][$index];
+    $itemToUpdate = GetStudentById($index);
     return $itemToUpdate;
-    //return $product = array('name'=>$_SESSION['names'][$index]['product_name'],
-    //    'qty'=>$_SESSION['names'][$index]['product_qty']);
 }
 
+function GetStudentById($idshow)
+{
+    global $studentdbstore;
+    global $student_store;
+    $detail = array();
+    $connection = mysql_connect("localhost","root","");
+    if ($connection) {
+        //echo ("Connection is succeed");
+    } else {
+        //echo ("Connection is fail");
+    }
+
+    mysql_select_db("shop");
+
+    $querystring = 'SELECT * from studentstore where student_id = '.$idshow;
+
+    $result = mysql_query($querystring);
+    if($result) {
+        while($data = mysql_fetch_assoc($result))
+        {
+            $detail[] = $data;
+        }
+    }
+
+    mysql_close($connection);
+
+
+    return $detail;
+}
