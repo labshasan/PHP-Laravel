@@ -3,7 +3,11 @@ include_once('lib/library.php');
 ?>
 
 <html>
-<head>All Students</head>
+<head>
+    <title>All Students</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/lib/bootstrap.css">
+</head>
 <body>
 <div>
     <table border="1">
