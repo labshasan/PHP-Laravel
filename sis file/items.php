@@ -1,7 +1,6 @@
 <?php
 include_once('lib/library.php');
-
-//print_r($_SESSION);
+$xmlfile = simplexml_load_file('lib/sis.xml');
 ?>
 
 <html>
@@ -35,32 +34,34 @@ include_once('lib/library.php');
     <tbody>
     <?php
     global $student_store;
-    $length = getStudentCount();
-    for ($i=0;$i<$length;$i++):
-        ?>
-        <tr><td><?php echo $i+1?></td>
-            <?php
-            foreach ($student_keys as $k1 => $v1) {
-                echo '<td>';
-                if(isset($_SESSION[$student_store][$i][$k1])) {
-                    if($_SESSION[$student_store][$i][$k1] == $k1)
-                    {
-                        echo 'Yes';
+    foreach ($xmlfile as $student) {
+        $i = $student->attributes()->student_id;
+                   ?>
+            <tr>
+                <td><?php echo $i ?></td>
+                <?php
+                foreach ($student as $k1 => $v1) {
+                    echo '<td>';
+                    foreach ($student_keys as $k2 => $v2) {
+                        if($k1 == $k2) {
+                            if ($v1 == $k2) {
+                                echo 'Yes';
+                            } else {
+                                echo $v1;
+                            }
+                        }
                     }
-                    else {
-                        echo $_SESSION[$student_store][$i][$k1];
-                    }
+                    echo '</td>';
                 }
-                echo '</td>';
-            }
-            ?>
-            <td><a href='update.php?index=<?php echo $i?>'>Edit</a> |
-                <a href='delete.php?index=<?php echo $i?>'>Delete</a> |
-                <a href='detail.php?index=<?php echo $i?>'>Show</a>
-            </td>
-        </tr>
-    <?php
-    endfor;
+                ?>
+                <td><a href='update.php?index=<?php echo $i ?>'>Edit</a> |
+                    <a href='delete.php?index=<?php echo $i ?>'>Delete</a> |
+                    <a href='detail.php?index=<?php echo $i ?>'>Show</a>
+                </td>
+            </tr>
+        <?php
+
+        }
     ?>
 </tbody>
 </table>

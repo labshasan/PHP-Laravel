@@ -14,6 +14,8 @@ echo '<br/>';
 
 <?php
 foreach ($xmlfile as $student) {
+
+
     echo '<br/>';
     echo "
             <tr>
@@ -26,6 +28,14 @@ foreach ($xmlfile as $student) {
                     <td>{$student->student_dob}</td>
             </tr>
             ";
+
+    foreach ($student as $k=>$v) {
+        echo '<td>';
+        echo $k;
+        echo $v;
+        echo '<td>';
+    }
+
     //<td>{date('Y-m-d', $student->student_dob))}</td>
     //$result = $date->format('Y-m-d H:i:s');
     echo '<br/>';

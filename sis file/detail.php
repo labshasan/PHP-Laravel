@@ -10,11 +10,13 @@ include_once('lib/library.php');
     global $student_keys;
     $index = getIndex();
     foreach ($student_keys as $k1 => $v1) {
-    echo '<span><b>';
-    echo $v1;
-    echo '</b>: ';
-    echo $_SESSION[$student_store][$index][$k1];
-    echo '</span><br/>';
+        if(isset($_SESSION[$student_store][$index][$k1])) {
+            echo '<span><b>';
+            echo $v1;
+            echo '</b>: ';
+            echo $_SESSION[$student_store][$index][$k1];
+            echo '</span><br/>';
+        }
     }
     ?>
 

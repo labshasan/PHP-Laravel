@@ -110,7 +110,7 @@ function sortNSaveStudentInfo()
     array_multisort($name, SORT_ASC, $_SESSION[$student_store]);
 }
 
-function editItemToSession($data)
+function editItemToSession($xmlfile, $data)
 {
     if(empty($data))
     {
@@ -119,42 +119,41 @@ function editItemToSession($data)
     global $student_store;
     global $student_keys;
 
-    if(!array_key_exists($student_store,$_SESSION)){
-        $_SESSION[$student_store]= array();
-    }
-
     $modify_index = $_POST[ID_COLUMN_STUDENT];
-    foreach($_POST as $pk => $pv) {
-        if (empty($_SESSION[$student_store][$modify_index])) {
-            $_SESSION[$student_store][$modify_index] = array();
-        }
-        foreach ($student_keys as $k1 => $v1) {
-            if ($pk == $k1) {
-                if(isset($_POST[$pk]))
-                    $_SESSION[$student_store][$modify_index][$pk] = $_POST[$pk];
-                else
-                    $_SESSION[$student_store][$modify_index][$pk] = '';
-            }
-        }
-    }
 
-    file_put_contents(TXTFilePath, json_encode($_SESSION));
-    $_SESSION = json_decode(file_get_contents(TXTFilePath), true);
+
+    $user = $xmlfile->xpath('//studentstore[@student_id="' . $modify_index . '"]');
+
+    $user[0]->student_fname = $_POST['student_fname'];
+    $user[0]->student_lname = $_POST['student_lname'];
+    $user[0]->student_address = $_POST['student_address'];
+    $user[0]->student_email = $_POST['student_email'];
+    $user[0]->student_mphone = $_POST['student_mphone'];
+    $user[0]->student_dob = $_POST['student_dob'];
+    $user[0]->student_gender = $_POST['student_gender'];
+    $user[0]->student_mstatus = $_POST['student_mstatus'];
+    $user[0]->student_degree = $_POST['student_degree'];
+    $user[0]->student_hobby_reading = $_POST['student_hobby_reading'];
+    $user[0]->student_hobby_movie = $_POST['student_hobby_movie'];
+    $user[0]->student_hobby_travel = $_POST['student_hobby_travel'];
+    $user[0]->student_hobby_playing = $_POST['student_hobby_playing'];
+
+    echo XMLFilePath;
+    $xmlfile->asXML(XMLFilePath);
 
 }
 
-function getModifyDetail($index){
+function getModifyDetail($xmlfile, $index)
+{
 
-    $_SESSION = json_decode(file_get_contents(TXTFilePath), true);
-    global $student_store;
-    $itemToUpdate = array();
-    if(!array_key_exists($student_store,$_SESSION)){
-        $_SESSION[$student_store]= array();
+    $studentToUpdate = array();
+    foreach ($xmlfile as $student) {
+        $i = $student->attributes()->student_id;
+
+        if($i == $index) {
+            return $student;
+        }
     }
-
-    $itemToUpdate = $_SESSION[$student_store][$index];
-    return $itemToUpdate;
-    //return $product = array('name'=>$_SESSION['names'][$index]['product_name'],
-    //    'qty'=>$_SESSION['names'][$index]['product_qty']);
+    return $studentToUpdate;
 }
 

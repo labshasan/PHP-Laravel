@@ -1,6 +1,6 @@
 <?php
 
-define('WWW_PATH','http://localhost:8080/sis/');
+define('WWW_PATH','http://localhost:8080/sisfile/');
 define('GET_ID','index');
 
 //Here I am preserving table name / storage name used for storing  data - student.
