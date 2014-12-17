@@ -1,6 +1,6 @@
 <?php
 
-define('WWW_PATH','http://localhost:8080/sisfile/');
+define('WWW_PATH','http://localhost:8080/sis file/');
 define('GET_ID','index');
 
 //Here I am preserving table name / storage name used for storing  data - student.
@@ -26,7 +26,7 @@ $student_keys = array(
 define('SORT_COLUMN_STUDENT','student_fname');
 define('ID_COLUMN_STUDENT','student_id');
 
-define('XMLFilePath', getcwd()."/sis.xml");
+define('XMLFilePath', "lib/sis.xml");
 define('TXTFilePath', getcwd()."/lib/sis.txt");
 
 
