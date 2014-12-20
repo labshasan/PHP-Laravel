@@ -34,7 +34,16 @@ print_r($modifyItem);
         <br/>
 
         <label>Date of Birth:</label>
-        <input type="date" name= "student_dob" value='<?php echo $modifyItem->student_dob; ?>' placeholder="(Date of Birth)"/>
+        <?php
+        if(isset($modifyItem->student_dob))
+        $StrFormat = strtotime($modifyItem->student_dob . " 00:00:00");
+
+        ?>
+
+        <input type="date" name= "student_dob" value='<?php
+        if(isset($StrFormat))
+            echo date('Y-m-d',$StrFormat);
+        ?>' placeholder="(Date of Birth)"/>
         <br/>
 
         <label>Gender: </label>

@@ -1,6 +1,6 @@
 <?php
 include_once('lib/library.php');
-
-deleteByGettingIndex();
+$xmlfile = simplexml_load_file('lib/sis.xml');
+deleteByGettingIndex($xmlfile);
 
 header('location:items.php');
