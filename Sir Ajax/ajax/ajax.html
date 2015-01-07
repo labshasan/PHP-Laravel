@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="http://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet">
+
+</head>
+<body>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+
+    </tr>
+    </thead>
+
+
+</table>
+<div  id = "myAJAXContent"> Hello </div>
+
+<button id="btnClickMe" type="button" >Click Me!</button>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    function loadData(){
+        $.ajax({
+            url: "welcome.php",
+            dataType:"json"
+        }).success(function(bitm) {
+            $('#myAJAXContent').html(bitm[0].fname+" "+bitm[0].lname);
+        });
+        //var data = window.prompt('what is your name','enter your name');//'Hello From JS';
+       // $("#myAJAXContent").html(data);
+    }
+
+    $(document).ready(function(){
+        $('#btnClickMe').bind('click', loadData);
+    });
+
+    $(document).ready(function() {
+        $('#example').dataTable( {
+            "ajax": "welcome.php",
+            "columns": [
+                { "data": "fname" },
+                { "data": "lname" }
+
+            ]
+        } );
+    } );
+
+</script>
+</body>
+</html>

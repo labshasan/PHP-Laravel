@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form method="post" action="add.php">
+    <table border=0>
+        <tr bgcolor=#cccccc>
+            <td width=150>STUDENT</td>
+            <td width=170>REGISTRATION FORM</td>
+        </tr>
+        <br>
+        <tr>
+            <td>Name</td>
+            <td align=left><input type="text" name="student_name" size=15 maxlength=30></td>
+        </tr>
+
+        <tr>
+            <td>Age</td>
+            <td align=left><input type="text" name="student_age" size=3 maxlength=30></td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td align=left><input type="radio" name="student_gender" value="Male" size=3 maxlength=3 checked>Male</td>
+            <td align=left><input type="radio" name="student_gender" value="Female" size=3 maxlength=3 >Female</td>
+        </tr>
+        <tr>
+            <td>Department</td>
+            <td><select name="student_department">
+                <option value = "a">ACCA</option>
+                <option value = "b">BBA</option>
+                <option value = "c">CSE</option>
+                <option value = "d">Demography</option>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Hobbies</td>
+            <td align=left><input type="checkbox" name="student_hobby" value="Drawing" size=15 maxlength=3>Drawing</td>
+            <td align=left><input type="checkbox" name="student_hobby" value="Singing" size=15 maxlength=3>Singing</td>
+        </tr>
+        <tr></tr>
+        <tr>
+            <td colspan=2 align=left><input type=submit value="Submit"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
